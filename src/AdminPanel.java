@@ -14,16 +14,20 @@ public class AdminPanel extends JDialog {
     private JTextField nazwaGry;
     private JTextField cena;
     private JTextField img;
+    private JLabel icon;
 
     public AdminPanel(JFrame parent, User user) {
         super(parent);
         setTitle("Admin");
         setContentPane(adminPanel);
-        setMinimumSize(new Dimension(450, 475));
+        setMinimumSize(new Dimension(600, 775));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+
+
+        icon.setIcon(new ImageIcon("src/icons/admin.png"));
         outButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,9 +63,9 @@ public class AdminPanel extends JDialog {
                                 "Game added successfully",
                                 "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                        nazwaGry.setText("");
-                        cena.setText("");
-                        img.setText("");
+                        nazwaGry.setText(nazwaGry.getText());
+                        cena.setText(cena.getText());
+                        img.setText(img.getText());
 
                         connection.close();
 

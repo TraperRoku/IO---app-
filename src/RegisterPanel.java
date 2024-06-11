@@ -13,6 +13,7 @@ public class RegisterPanel extends JDialog {
     private JButton signInButton;
     private JButton registerButton;
     private JButton cancelButton;
+    private JLabel icon;
 
 
     public RegisterPanel(JFrame parent){
@@ -24,6 +25,8 @@ public class RegisterPanel extends JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+
+        icon.setIcon(new ImageIcon("src/icons/register.png"));
 
         signInButton.addActionListener(new ActionListener() {
             @Override
@@ -70,6 +73,9 @@ public class RegisterPanel extends JDialog {
                             JOptionPane.showMessageDialog(registerPanel,
                                     "User registered successfully",
                                     "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                            createWallet(connection, email1);
+
                             dispose();
                             LoginForm loginForm = new LoginForm(null);
                             loginForm.setVisible(true);
@@ -108,4 +114,27 @@ public class RegisterPanel extends JDialog {
         return unique;
     }
 
+
+    private void createWallet(Connection connection, String email) throws SQLException {
+
+        String insertWalletQuery = "INSERT INTO Wallet (player_id, balance) VALUES (?, ?)";
+        try (PreparedStatement insertWalletStatement = connection.prepareStatement(insertWalletQuery)) {
+
+            int playerId;
+            String getPlayerIdQuery = "SELECT id FROM User WHERE email = ?";
+            try (PreparedStatement getPlayerIdStatement = connection.prepareStatement(getPlayerIdQuery)) {
+                getPlayerIdStatement.setString(1, email);
+                ResultSet playerIdResultSet = getPlayerIdStatement.executeQuery();
+                if (playerIdResultSet.next()) {
+                    playerId = playerIdResultSet.getInt("id");
+                } else {
+
+                    throw new SQLException("User not found after registration");
+                }
+            }
+            insertWalletStatement.setInt(1, playerId);
+            insertWalletStatement.setDouble(2, 0.00);
+            insertWalletStatement.executeUpdate();
+        }
+    }
 }

@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 
 public class LoginForm extends JDialog {
@@ -13,6 +17,7 @@ public class LoginForm extends JDialog {
     private JTextField loginEmail;
     private JPasswordField loginPassword;
     private JButton registerButton;
+    private JLabel icon;
     ;
     private boolean isAdmin = false;
 
@@ -21,12 +26,12 @@ public class LoginForm extends JDialog {
         super(parent);
         setTitle("Login");
         setContentPane(loginPanel);
-        setMinimumSize(new Dimension(450,475));
+        setMinimumSize(new Dimension(600, 775));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-
+        icon.setIcon(new ImageIcon("src/icons/enter.png"));
 
         BtnOk.addActionListener(new ActionListener() {
             @Override
@@ -109,6 +114,8 @@ public class LoginForm extends JDialog {
         }
         return user;
     }
+
+
     public static void main(String[] args) {
          new LoginForm(null);
     }

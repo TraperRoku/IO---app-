@@ -4,6 +4,7 @@ public class Game {
     private Double cena;
     private String img;
 
+    User user = new User();
 
     public Game(String nazwaGry, Double cena, String img) {
         this.nazwaGry = nazwaGry;
